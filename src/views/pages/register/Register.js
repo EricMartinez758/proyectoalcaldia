@@ -12,7 +12,8 @@ import {
   CRow,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilLockLocked, cilUser } from '@coreui/icons'
+import { cil4k, cilAt, cilDialpad, cilListNumbered, cilLockLocked, cilPhone, cilSortNumericDown, cilUser } from '@coreui/icons'
+import { number } from 'prop-types'
 
 const Register = () => {
   return (
@@ -29,11 +30,29 @@ const Register = () => {
                     <CInputGroupText>
                       <CIcon icon={cilUser} />
                     </CInputGroupText>
-                    <CFormInput placeholder="Username" autoComplete="username" />
+                    <CFormInput placeholder="Firstname" autoComplete="firsname" />
+                  </CInputGroup>
+                  <CInputGroup className="mb-3">
+                    <CInputGroupText>
+                      <CIcon icon={cilUser} />
+                    </CInputGroupText>
+                    <CFormInput placeholder="Lastname" autoComplete="Lastname" />
+                  </CInputGroup>
+                  <CInputGroup className="mb-3">
+                    <CInputGroupText>
+                      <CIcon icon={cilDialpad} />
+                    </CInputGroupText>
+                    <CFormInput placeholder="Number id" autoComplete="Number id" />
                   </CInputGroup>
                   <CInputGroup className="mb-3">
                     <CInputGroupText>@</CInputGroupText>
                     <CFormInput placeholder="Email" autoComplete="email" />
+                  </CInputGroup>
+                  <CInputGroup className="mb-3">
+                    <CInputGroupText>
+                      <CIcon icon={cilPhone} />
+                    </CInputGroupText>
+                    <CFormInput placeholder="Phone" autoComplete="Phone" />
                   </CInputGroup>
                   <CInputGroup className="mb-3">
                     <CInputGroupText>
