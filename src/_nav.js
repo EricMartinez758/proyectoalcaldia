@@ -45,7 +45,7 @@ const _nav = [
   {
     component: CNavItem,
     name: 'Workers',
-    to: './',
+    to: '/workers',
     icon: <CIcon icon={cilNotes} customClassName="nav-icon" />,
   },
   {
