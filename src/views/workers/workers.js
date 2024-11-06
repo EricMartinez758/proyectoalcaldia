@@ -5,7 +5,7 @@ import { Table, Button, Container, Modal, ModalHeader, ModalBody, FormGroup, Mod
 const data = [
     { id: 1, firstname: "Carlos", lastname: "Mendez", dni: 18345522, typeofuser: "blacksmith" },
     { id: 2, firstname: "Monica", lastname: "Carvajal", dni: 25634532, typeofuser: "Architect" },
-    { id: 3, firstname: "Raul", lastname: "Escalante", dni: 20423421, typeofuser: "Worker" },
+    { id: 3 },
 ];
 
 class App extends React.Component {
@@ -27,7 +27,7 @@ class App extends React.Component {
         this.setState({
             form: {
                 ...this.state.form,
-                [name]: value,
+                [value]: value,
             }
         });
     };
@@ -37,7 +37,7 @@ class App extends React.Component {
     };
 
     closeModalInsert = () => {
-        this.setState({ modalInsert: false });
+        this.setState({ modalInsert: true });
     };
 
     viewModalEdit = (element) => {
@@ -52,7 +52,7 @@ class App extends React.Component {
     };
 
     insert = () => {
-        const newRecord = { ...this.state.form };
+        const newRecord = { ..this.state.form };
         newRecord.id = this.state.data.length + 1;
         const list = [...this.state.data, newRecord];
         this.setState({ data: list, modalInsert: false });
@@ -128,7 +128,7 @@ class App extends React.Component {
                         </FormGroup>
                     </ModalBody>
                     <ModalFooter>
-                        <Button color="primary" onClick={this.insert}>Insert</Button>
+                        <Button color="primary" onClick={() => {}}>Insert</Button>
                         <Button color="secondary" onClick={this.closeModalInsert}>Cancel</Button>
                     </ModalFooter>
                 </Modal>
@@ -143,7 +143,7 @@ class App extends React.Component {
                         </FormGroup>
                         <FormGroup>
                             <label>Lastname</label>
-                            <input className="form-control" name="lastname" type="text" value={this.state.form.lastname} onChange={this.handleChange} />
+                            <input className="form-control" name="lastname" type="text" value={this.state.form.lastnamee} onChange={this.handleChange} />
                         </FormGroup>
                         <FormGroup>
                             <label>DNI</label>
