@@ -13,3 +13,14 @@
 
 // If you want to add custom CSS you can put it here
 @import "custom";
+
+.button_register {
+    background-color: #c5151c;
+    color: #ffffff; // Texto blanco
+    border: none;  // Remueve el borde si es necesario
+  }
+  
+  .button_register:hover {
+    background-color: #a01315; // Un tono más oscuro para el hover
+  }
+  

@@ -1,167 +1,208 @@
-import React from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { Table, Button, Container, Modal, ModalHeader, ModalBody, FormGroup, ModalFooter } from "reactstrap";
+import React, { useState } from "react";
 
-const data = [
-    { id: 1, firstname: "Carlos", lastname: "Mendez", dni: 18345522, typeofuser: "blacksmith" },
-    { id: 2, firstname: "Monica", lastname: "Carvajal", dni: 25634532, typeofuser: "Architect" },
-    { id: 3, firstname: "Leon", lastname: "Pineda", dni:28934924, typeofuser: "Worker" },
+const initialData = [
+  { id: 1, firstname: "Carlos", lastname: "Mendez", dni: 18345522, typeofuser: "Blacksmith" },
+  { id: 2, firstname: "Monica", lastname: "Carvajal", dni: 25634532, typeofuser: "Architect" },
+  { id: 3, firstname: "Leon", lastname: "Pineda", dni: 28934924, typeofuser: "Worker" },
 ];
 
-class App extends React.Component {
-    state = {
-        data: data,
-        modalInsert: false,
-        modalUpdate: false,
-        form: {
-            id: "",
-            firstname: "",
-            lastname: "",
-            dni: "",
-            typeofuser: "",
-        }
-    };
+function Workers() {
+  const [data, setData] = useState(initialData);
+  const [modalInsert, setModalInsert] = useState(false);
+  const [modalUpdate, setModalUpdate] = useState(false);
+  const [form, setForm] = useState({
+    id: "",
+    firstname: "",
+    lastname: "",
+    dni: "",
+    typeofuser: "",
+  });
 
-    handleChange = (e) => {
-        const { name, value } = e.target;
-        this.setState({
-            form: {
-                ...this.state.form,
-                [name]: value,
-            }
-        });
-    };
-    
-    viewModalInsert = () => {
-        this.setState({ modalInsert: true, form: { id: "", firstname: "", lastname: "", dni: "", typeofuser: "" } });
-    };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
+  };
 
-    closeModalInsert = () => {
-        this.setState({ modalInsert: false });
-    };
+  const openInsertModal = () => {
+    setForm({ id: "", firstname: "", lastname: "", dni: "", typeofuser: "" });
+    setModalInsert(true);
+  };
 
-    viewModalEdit = (element) => {
-        this.setState({
-            form: element,
-            modalUpdate: true
-        });
-    };
+  const closeInsertModal = () => setModalInsert(false);
 
-    closeModalEdit = () => {
-        this.setState({ modalUpdate: false });
-    };
+  const openEditModal = (item) => {
+    setForm(item);
+    setModalUpdate(true);
+  };
 
-    insert = () => {
-        const newRecord = { ...this.state.form };
-        newRecord.id = this.state.data.length + 1;
-        const list = [...this.state.data, newRecord];
-        this.setState({ data: list, modalInsert: false });
-    };
+  const closeEditModal = () => setModalUpdate(false);
 
-    edit = (form) => {
-        const list = this.state.data.map(item => item.id === form.id ? form : item);
-        this.setState({ data: list, modalUpdate: false });
-    };
+  const handleInsert = () => {
+    const newData = [...data, { ...form, id: data.length + 1 }];
+    setData(newData);
+    closeInsertModal();
+  };
 
-    delete = (form) => {
-        const option = window.confirm("Do you want to delete this record with ID: " + form.id + "?");
-        if (option) {
-            const list = this.state.data.filter(item => item.id !== form.id);
-            this.setState({ data: list });
-        }
-    };
+  const handleEdit = () => {
+    const updatedData = data.map((item) => (item.id === form.id ? form : item));
+    setData(updatedData);
+    closeEditModal();
+  };
 
-    render() {
-        return (
-            <>
-                <Container>
-                    <Button color="primary" onClick={this.viewModalInsert}>Insert new worker</Button>
-
-                    <Table>
-                        <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>Firstname</th>
-                                <th>Lastname</th>
-                                <th>DNI</th>
-                                <th>Type of User</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {this.state.data.map((element) => (
-                                <tr key={element.id}>
-                                    <td>{element.id}</td>
-                                    <td>{element.firstname}</td>
-                                    <td>{element.lastname}</td>
-                                    <td>{element.dni}</td>
-                                    <td>{element.typeofuser}</td>
-                                    <td>
-                                        <Button color="success" onClick={() => this.viewModalEdit(element)}>Edit</Button>{" "}
-                                        <Button color="danger" onClick={() => this.delete(element)}>Delete</Button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </Table>
-                </Container>
-
-                {/* Modal of insertion */}
-                <Modal isOpen={this.state.modalInsert}>
-                    <ModalHeader>Insert Worker</ModalHeader>
-                    <ModalBody>
-                        <FormGroup>
-                            <label>Firstname</label>
-                            <input className="form-control" name="firstname" type="text" onChange={this.handleChange} />
-                        </FormGroup>
-                        <FormGroup>
-                            <label>Lastname</label>
-                            <input className="form-control" name="lastname" type="text" onChange={this.handleChange} />
-                        </FormGroup>
-                        <FormGroup>
-                            <label>DNI</label>
-                            <input className="form-control" name="dni" type="text" onChange={this.handleChange} />
-                        </FormGroup>
-                        <FormGroup>
-                            <label>Type of User</label>
-                            <input className="form-control" name="typeofuser" type="text" onChange={this.handleChange} />
-                        </FormGroup>
-                    </ModalBody>
-                    <ModalFooter>
-                        <Button color="primary" onClick={this.insert}>Insert</Button>
-                        <Button color="secondary" onClick={this.closeModalInsert}>Cancel</Button>
-                    </ModalFooter>
-                </Modal>
-
-                {/* Modal of editind */}
-                <Modal isOpen={this.state.modalUpdate}>
-                    <ModalHeader>Edit Worker</ModalHeader>
-                    <ModalBody>
-                        <FormGroup>
-                            <label>Firstname</label>
-                            <input className="form-control" name="firstname" type="text" value={this.state.form.firstname} onChange={this.handleChange} />
-                        </FormGroup>
-                        <FormGroup>
-                            <label>Lastname</label>
-                            <input className="form-control" name="lastname" type="text" value={this.state.form.lastname} onChange={this.handleChange} />
-                        </FormGroup>
-                        <FormGroup>
-                            <label>DNI</label>
-                            <input className="form-control" name="dni" type="text" value={this.state.form.dni} onChange={this.handleChange} />
-                        </FormGroup>
-                        <FormGroup>
-                            <label>Type of User</label>
-                            <input className="form-control" name="typeofuser" type="text" value={this.state.form.typeofuser} onChange={this.handleChange} />
-                        </FormGroup>
-                    </ModalBody>
-                    <ModalFooter>
-                        <Button color="primary" onClick={() => this.edit(this.state.form)}>Edit</Button>
-                        <Button color="secondary" onClick={this.closeModalEdit}>Cancel</Button>
-                    </ModalFooter>
-                </Modal>
-            </>
-        );
+  const handleDelete = (id) => {
+    if (window.confirm("Do you want to delete this record?")) {
+      const filteredData = data.filter((item) => item.id !== id);
+      setData(filteredData);
     }
+  };
+
+  return (
+    <div className="container mt-4">
+      <button className="btn btn-primary mb-3" onClick={openInsertModal}>
+        Insert New Worker
+      </button>
+
+      <table className="table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Firstname</th>
+            <th>Lastname</th>
+            <th>DNI</th>
+            <th>Type of User</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((item) => (
+            <tr key={item.id}>
+              <td>{item.id}</td>
+              <td>{item.firstname}</td>
+              <td>{item.lastname}</td>
+              <td>{item.dni}</td>
+              <td>{item.typeofuser}</td>
+              <td>
+                <button className="btn btn-success btn-sm mx-1" onClick={() => openEditModal(item)}>
+                  Edit
+                </button>
+                <button className="btn btn-danger btn-sm mx-1" onClick={() => handleDelete(item.id)}>
+                  Delete
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      {/* Modal Insert */}
+      {modalInsert && (
+        <div className="modal show d-block" tabIndex="-1">
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Insert Worker</h5>
+                <button className="btn-close" onClick={closeInsertModal}></button>
+              </div>
+              <div className="modal-body">
+                <input
+                  type="text"
+                  name="firstname"
+                  placeholder="Firstname"
+                  className="form-control mb-2"
+                  onChange={handleChange}
+                />
+                <input
+                  type="text"
+                  name="lastname"
+                  placeholder="Lastname"
+                  className="form-control mb-2"
+                  onChange={handleChange}
+                />
+                <input
+                  type="text"
+                  name="dni"
+                  placeholder="DNI"
+                  className="form-control mb-2"
+                  onChange={handleChange}
+                />
+                <input
+                  type="text"
+                  name="typeofuser"
+                  placeholder="Type of User"
+                  className="form-control"
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="modal-footer">
+                <button className="btn btn-primary" onClick={handleInsert}>
+                  Insert
+                </button>
+                <button className="btn btn-secondary" onClick={closeInsertModal}>
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal Edit */}
+      {modalUpdate && (
+        <div className="modal show d-block" tabIndex="-1">
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title">Edit Worker</h5>
+                <button className="btn-close" onClick={closeEditModal}></button>
+              </div>
+              <div className="modal-body">
+                <input
+                  type="text"
+                  name="firstname"
+                  placeholder="Firstname"
+                  className="form-control mb-2"
+                  value={form.firstname}
+                  onChange={handleChange}
+                />
+                <input
+                  type="text"
+                  name="lastname"
+                  placeholder="Lastname"
+                  className="form-control mb-2"
+                  value={form.lastname}
+                  onChange={handleChange}
+                />
+                <input
+                  type="text"
+                  name="dni"
+                  placeholder="DNI"
+                  className="form-control mb-2"
+                  value={form.dni}
+                  onChange={handleChange}
+                />
+                <input
+                  type="text"
+                  name="typeofuser"
+                  placeholder="Type of User"
+                  className="form-control"
+                  value={form.typeofuser}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="modal-footer">
+                <button className="btn btn-primary" onClick={handleEdit}>
+                  Save
+                </button>
+                <button className="btn btn-secondary" onClick={closeEditModal}>
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
 }
 
-export default App;
+export default Workers;
