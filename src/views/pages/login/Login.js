@@ -29,7 +29,7 @@ const Login = () => {
     e.preventDefault()
 
     try {
-      const response = await fetch(`http://localhost:3001/users?username=${username}&password=${password}`)
+      const response = await fetch(`http://localhost:5000/users?username=${username}&password=${password}`)
       const data = await response.json()
 
       if (data.length > 0) {

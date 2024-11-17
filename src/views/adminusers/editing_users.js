@@ -1,20 +1,17 @@
 import React, { useState, useEffect } from "react";
 
-function Workers() {
+function Users() {
   const [data, setData] = useState([]);
   const [modalInsert, setModalInsert] = useState(false);
   const [modalUpdate, setModalUpdate] = useState(false);
   const [form, setForm] = useState({
     id: "",
-    firstname: "",
-    lastname: "",
-    dni: "",
-    typeofuser: "",
+    username: "",
+    password: "",
   });
 
   useEffect(() => {
-    
-    fetch("http://localhost:5000/workers")
+    fetch("http://localhost:5000/users")
       .then((response) => response.json())
       .then((data) => setData(data))
       .catch((error) => console.error("Error fetching data: ", error));
@@ -26,7 +23,7 @@ function Workers() {
   };
 
   const openInsertModal = () => {
-    setForm({ id: "", firstname: "", lastname: "", dni: "", typeofuser: "" });
+    setForm({ id: "", username: "", password: "" });
     setModalInsert(true);
   };
 
@@ -42,8 +39,7 @@ function Workers() {
   const handleInsert = () => {
     const newData = { ...form, id: data.length + 1 };
 
-   
-    fetch("http://localhost:5000/workers", {
+    fetch("http://localhost:5000/users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -51,16 +47,16 @@ function Workers() {
       body: JSON.stringify(newData),
     })
       .then((response) => response.json())
-      .then((newWorker) => {
-        setData([...data, newWorker]);
+      .then((newUser) => {
+        setData([...data, newUser]);
         closeInsertModal();
       })
       .catch((error) => console.error("Error inserting data: ", error));
   };
 
   const handleEdit = () => {
-   
-    fetch(`http://localhost:5000/workers/${form.id}`, {
+
+    fetch(`http://localhost:5000/users/${form.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -68,9 +64,9 @@ function Workers() {
       body: JSON.stringify(form),
     })
       .then((response) => response.json())
-      .then((updatedWorker) => {
+      .then((updatedUser) => {
         const updatedData = data.map((item) =>
-          item.id === form.id ? updatedWorker : item
+          item.id === form.id ? updatedUser : item
         );
         setData(updatedData);
         closeEditModal();
@@ -80,8 +76,7 @@ function Workers() {
 
   const handleDelete = (id) => {
     if (window.confirm("Do you want to delete this record?")) {
-      
-      fetch(`http://localhost:5000/workers/${id}`, {
+      fetch(`http://localhost:5000/users/${id}`, {
         method: "DELETE",
       })
         .then(() => {
@@ -95,17 +90,15 @@ function Workers() {
   return (
     <div className="container mt-4">
       <button className="btn btn-primary mb-3" onClick={openInsertModal}>
-        Insert New Worker
+        Insert New User
       </button>
 
       <table className="table">
         <thead>
           <tr>
             <th>ID</th>
-            <th>Firstname</th>
-            <th>Lastname</th>
-            <th>DNI</th>
-            <th>Type of User</th>
+            <th>Username</th>
+            <th>Password</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -113,10 +106,8 @@ function Workers() {
           {data.map((item) => (
             <tr key={item.id}>
               <td>{item.id}</td>
-              <td>{item.firstname}</td>
-              <td>{item.lastname}</td>
-              <td>{item.dni}</td>
-              <td>{item.typeofuser}</td>
+              <td>{item.username}</td>
+              <td>{item.password}</td>
               <td>
                 <button className="btn btn-success btn-sm mx-1" onClick={() => openEditModal(item)}>
                   Edit
@@ -136,36 +127,22 @@ function Workers() {
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title">Insert Worker</h5>
+                <h5 className="modal-title">Insert User</h5>
                 <button className="btn-close" onClick={closeInsertModal}></button>
               </div>
               <div className="modal-body">
                 <input
                   type="text"
-                  name="firstname"
-                  placeholder="Firstname"
+                  name="username"
+                  placeholder="Username"
                   className="form-control mb-2"
                   onChange={handleChange}
                 />
                 <input
-                  type="text"
-                  name="lastname"
-                  placeholder="Lastname"
+                  type="password"
+                  name="password"
+                  placeholder="Password"
                   className="form-control mb-2"
-                  onChange={handleChange}
-                />
-                <input
-                  type="text"
-                  name="dni"
-                  placeholder="DNI"
-                  className="form-control mb-2"
-                  onChange={handleChange}
-                />
-                <input
-                  type="text"
-                  name="typeofuser"
-                  placeholder="Type of User"
-                  className="form-control"
                   onChange={handleChange}
                 />
               </div>
@@ -188,40 +165,24 @@ function Workers() {
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title">Edit Worker</h5>
+                <h5 className="modal-title">Edit User</h5>
                 <button className="btn-close" onClick={closeEditModal}></button>
               </div>
               <div className="modal-body">
                 <input
                   type="text"
-                  name="firstname"
-                  placeholder="Firstname"
+                  name="username"
+                  placeholder="Username"
                   className="form-control mb-2"
-                  value={form.firstname}
+                  value={form.username}
                   onChange={handleChange}
                 />
                 <input
-                  type="text"
-                  name="lastname"
-                  placeholder="Lastname"
+                  type="password"
+                  name="password"
+                  placeholder="Password"
                   className="form-control mb-2"
-                  value={form.lastname}
-                  onChange={handleChange}
-                />
-                <input
-                  type="text"
-                  name="dni"
-                  placeholder="DNI"
-                  className="form-control mb-2"
-                  value={form.dni}
-                  onChange={handleChange}
-                />
-                <input
-                  type="text"
-                  name="typeofuser"
-                  placeholder="Type of User"
-                  className="form-control"
-                  value={form.typeofuser}
+                  value={form.password}
                   onChange={handleChange}
                 />
               </div>
@@ -241,4 +202,4 @@ function Workers() {
   );
 }
 
-export default Workers;
+export default Users;
