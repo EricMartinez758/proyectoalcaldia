@@ -1,7 +1,17 @@
 {
-    "posts": [
-      { "id": 1, "title": "Hola Mundo", "author": "Juan" },
-      { "id": 2, "title": "Mi segundo post", "author": "Maria" }
-    ]
+  "users": [
+    {
+      "id": 1,
+      "username": "admin",
+      "password": "admin123"
+    },
+    {
+      "id": 2,
+      "username": "eric",
+      "password": "123"
+    }
+  ],
+  "auth": {
+    "isAuthenticated": false
   }
-  
+}
