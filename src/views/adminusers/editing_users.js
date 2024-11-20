@@ -56,7 +56,7 @@ function Users() {
 
   const handleEdit = () => {
 
-    fetch(`http://localhost:5000/users/${form.id}`, {
+    fetch(`http://localhost:5000/users/${autoincrement.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

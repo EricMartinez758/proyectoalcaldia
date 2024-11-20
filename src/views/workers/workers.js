@@ -60,7 +60,7 @@ function Workers() {
 
   const handleEdit = () => {
    
-    fetch(`http://localhost:5000/workers/${form.id}`, {
+    fetch(`http://localhost:5000/workers/${autoincrement.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
