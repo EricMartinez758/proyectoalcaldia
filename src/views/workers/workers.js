@@ -14,7 +14,7 @@ function Workers() {
 
   useEffect(() => {
     
-    fetch("http://localhost:5000/workers")
+    fetch("http://localhost:3001/workers")
       .then((response) => response.json())
       .then((data) => setData(data))
       .catch((error) => console.error("Error fetching data: ", error));
@@ -43,7 +43,7 @@ function Workers() {
     const newData = { ...form, id: data.length + 1 };
 
    
-    fetch("http://localhost:5000/workers", {
+    fetch("http://localhost:3001/workers", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -60,7 +60,7 @@ function Workers() {
 
   const handleEdit = () => {
    
-    fetch(`http://localhost:5000/workers/${autoincrement.id}`, {
+    fetch(`http://localhost:3001/workers/${autoincrement.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -81,7 +81,7 @@ function Workers() {
   const handleDelete = (id) => {
     if (window.confirm("Do you want to delete this record?")) {
       
-      fetch(`http://localhost:5000/workers/${id}`, {
+      fetch(`http://localhost:3001/workers/${id}`, {
         method: "DELETE",
       })
         .then(() => {

@@ -11,7 +11,7 @@ function Users() {
   });
 
   useEffect(() => {
-    fetch("http://localhost:5000/users")
+    fetch("http://localhost:3001/users")
       .then((response) => response.json())
       .then((data) => setData(data))
       .catch((error) => console.error("Error fetching data: ", error));
@@ -39,7 +39,7 @@ function Users() {
   const handleInsert = () => {
     const newData = { ...form, id: data.length + 1 };
 
-    fetch("http://localhost:5000/users", {
+    fetch("http://localhost:3001/users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -56,7 +56,7 @@ function Users() {
 
   const handleEdit = () => {
 
-    fetch(`http://localhost:5000/users/${autoincrement.id}`, {
+    fetch(`http://localhost:3001/users/${autoincrement.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -76,7 +76,7 @@ function Users() {
 
   const handleDelete = (id) => {
     if (window.confirm("Do you want to delete this record?")) {
-      fetch(`http://localhost:5000/users/${id}`, {
+      fetch(`http://localhost:3001/users/${id}`, {
         method: "DELETE",
       })
         .then(() => {

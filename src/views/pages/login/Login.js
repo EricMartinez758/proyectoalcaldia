@@ -1,8 +1,6 @@
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import { login } from '../../../redux/slices/authSlice'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import {
   CButton,
   CCard,
@@ -15,33 +13,42 @@ import {
   CInputGroup,
   CInputGroupText,
   CRow,
-} from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-import { cilLockLocked, cilUser } from '@coreui/icons'
+} from '@coreui/react';
+import CIcon from '@coreui/icons-react';
+import { cilLockLocked, cilUser } from '@coreui/icons';
 
 const Login = () => {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
-    e.preventDefault()
-
+    e.preventDefault();
+    setError('');
+  
     try {
-      const response = await fetch(`http://localhost:5000/users?username=${username}&password=${password}`)
-      const data = await response.json()
-
-      if (data.length > 0) {
-        dispatch(login())  
-        navigate('/dashboard')  
+      const response = await fetch("http://localhost:3001/users");
+      const users = await response.json();
+  
+      const user = users.find(
+        (u) =>
+          u.username.toLowerCase() === username.toLowerCase() &&
+          u.password === password
+      );
+  
+      if (user) {
+        localStorage.setItem('user', JSON.stringify(user));
+        navigate('/dashboard');
       } else {
-        alert('Credenciales incorrectas')
+        setError('Credenciales incorrectas');
       }
     } catch (error) {
-      console.error('Error al iniciar sesión:', error)
+      console.error('Error al iniciar sesión:', error);
+      setError('Error al conectar con el servidor');
     }
-  }
+  };
+  
 
   return (
     <div className="bg-body-tertiary min-vh-100 d-flex flex-row align-items-center">
@@ -49,18 +56,21 @@ const Login = () => {
         <CRow className="justify-content-center">
           <CCol md={8}>
             <CCardGroup>
-              <CCard className="p-4">
+              <CCard className="loggins">
                 <CCardBody>
                   <CForm onSubmit={handleLogin}>
                     <h1>Login</h1>
                     <p className="text-body-secondary">Sign In to your account</p>
+                    
+                    {error && <p style={{ color: 'red' }}>{error}</p>} {/* Mensaje de error */}
+
                     <CInputGroup className="mb-3">
                       <CInputGroupText>
                         <CIcon icon={cilUser} />
                       </CInputGroupText>
                       <CFormInput 
-                        placeholder="Number id" 
-                        autoComplete="Number id" 
+                        placeholder="Username" 
+                        autoComplete="username" 
                         value={username}
                         onChange={(e) => setUsername(e.target.value)} 
                       />
@@ -79,30 +89,12 @@ const Login = () => {
                     </CInputGroup>
                     <CRow>
                       <CCol xs={6}>
-                        <CButton color="primary" className="px-4" type="submit">
+                        <CButton color="primary" className="btlogin" type="submit">
                           Login
-                        </CButton>
-                      </CCol>
-                      <CCol xs={6} className="text-right">
-                        <CButton color="link" className="px-0">
-                          Forgot password?
                         </CButton>
                       </CCol>
                     </CRow>
                   </CForm>
-                </CCardBody>
-              </CCard>
-              <CCard className="text-white bg-primary py-5" style={{ width: '44%' }}>
-                <CCardBody className="text-center">
-                  <div>
-                    <h2>Sign up</h2>
-                    <p>You still don't have an account?</p>
-                    <Link to="/register">
-                      <CButton color="primary" className="mt-3" active tabIndex={-1}>
-                        Register Now!
-                      </CButton>
-                    </Link>
-                  </div>
                 </CCardBody>
               </CCard>
             </CCardGroup>
@@ -110,7 +102,7 @@ const Login = () => {
         </CRow>
       </CContainer>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

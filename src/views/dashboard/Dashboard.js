@@ -2,22 +2,14 @@ import React from 'react'
 import classNames from 'classnames'
 
 import {
-  CAvatar,
   CButton,
   CButtonGroup,
   CCard,
   CCardBody,
-  CCardFooter,
-  CCardHeader,
+  CCardFooter, 
   CCol,
   CProgress,
-  CRow,
-  CTable,
-  CTableBody,
-  CTableDataCell,
-  CTableHead,
-  CTableHeaderCell,
-  CTableRow,
+  CRow, 
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import {
@@ -27,18 +19,13 @@ import {
   cibCcPaypal,
   cibCcStripe,
   cibCcVisa,
-  cibGoogle,
-  cibFacebook,
-  cibLinkedin,
   cifBr,
   cifEs,
   cifFr,
   cifIn,
   cifPl,
   cifUs,
-  cibTwitter,
   cilCloudDownload,
-  cilPeople,
   cilUser,
   cilUserFemale,
 } from '@coreui/icons'

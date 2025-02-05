@@ -11,14 +11,9 @@
       "password": "123"
     },
     {
-      "id": 3,
+      "id": "3",
       "username": "Brandon",
       "password": "123"
-    },
-    {
-      "id": 4,
-      "username": "eric",
-      "password": "we"
     }
   ],
   "auth": {
@@ -47,35 +42,47 @@
       "typeofuser": "Worker"
     },
     {
-      "id": 4,
+      "id": "4",
       "firstname": "eric",
       "lastname": "alexander",
       "dni": "martinez",
+      "typeofuser": "Enginner"
+    },
+    {
+      "id": 5,
+      "firstname": "eri",
+      "lastname": "Fernande",
+      "dni": "11",
       "typeofuser": "Enginner"
     }
   ],
   "complaints": [
     {
-      "complaints_id": 1,
+      "id":"231234",
       "user_id": 2,
+      "complaints_id": 1,
+      "nombre": "Eric",
+      "apellido": "Martinez",
+      "correo": "ppp@gmail.com",
       "problems_id": 1,
       "description": "Luz dañada en la calle principal",
       "id_parish": 1,
       "address": "Avenida Libertador",
       "status_id": 1,
-      "complaint_date": "2024-11-16",
-      "id": "a711"
+      "complaint_date": "2024-11-16"
     },
     {
-      "complaints_id": 2,
-      "user_id": 3,
-      "problems_id": 2,
-      "description": "Huecos en la calle de la escuela",
+      "id": "29988648",
+      "user_id": "29988648",
+      "nombre": "Eric",
+      "apellido": "Martinez",
+      "correo": "ericmartinez0506@gmail.com",
+      "problems_id": 1,
+      "description": "bote de agua",
       "id_parish": 2,
-      "address": "Calle Bolívar",
-      "status_id": 2,
-      "complaint_date": "2024-11-17",
-      "id": "2c0d"
+      "address": "calle 23",
+      "status_id": 1,
+      "complaint_date": "2025-02-05"
     }
   ],
   "problems": [
